@@ -4,16 +4,26 @@
 angular.module("sportsStore")
     // product list active is used when category is active
     .constant("productListActiveClass", "btn-primary")
-    .controller("productListCtrl", function($scope, $filter, productListActiveClass) {
-    var selectedCategory = null;
-    $scope.selectCategory = function(newCategory){
-        selectedCategory = newCategory;
-    };
-    $scope.categoryFilterFn = function(product) {
-        return selectedCategory == null || product.category == selectedCategory;
-    };
-    $scope.getCategoryClass = function (category){
-        return selectedCategory == category ? productListActiveClass : "";
-    };
+    .constant("productListPageCount", 3)
+    .controller("productListCtrl", function($scope, $filter, productListActiveClass, productListPageCount) {
+        var selectedCategory = null;
+        $scope.selectedPage = 1;
+        $scope.pageSize = productListPageCount;
+        $scope.selectCategory = function(newCategory){
+            selectedCategory = newCategory;
+            $scope.selectedPage = 1;
+        };
+        $scope.selectPage = function (newPage){
+            $scope.selectedPage =  newPage;
+        };
+        $scope.categoryFilterFn = function(product) {
+            return selectedCategory == null || product.category == selectedCategory;
+        };
+        $scope.getCategoryClass = function (category){
+            return selectedCategory == category ? productListActiveClass : "";
+        };
+        $scope.getPageClass = function (page){
+            return $scope.selectedPage = page ? productListActiveClass : "";
+        };
     });
 
